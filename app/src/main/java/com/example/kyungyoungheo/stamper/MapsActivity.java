@@ -1,7 +1,12 @@
 package com.example.kyungyoungheo.stamper;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,17 +40,30 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-
+//        Context context = getApplicationContext();
+        if(marker.equals(mMarkerCSE)){
+            // Call video activity
+            Intent intent = new Intent(this, VideoActivity.class);
+            startActivity(intent);
+        }
         return false;
     }
 
     private void addMarkersToMap(){
+        Bitmap iconImage = resizeMapIcons("ssucse",100,100);
+
         mMarkerCSE =  mMap.addMarker(new MarkerOptions()
                 .position(CSE)
                 .title("Marker in 정보대")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ssucse)));
+                .icon(BitmapDescriptorFactory.fromBitmap(iconImage)));
+        
     }
 
+    private Bitmap resizeMapIcons(String iconName,int width, int height){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return resizedBitmap;
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
