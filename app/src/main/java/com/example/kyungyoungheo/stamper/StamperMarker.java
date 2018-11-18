@@ -6,18 +6,19 @@ import com.google.maps.android.clustering.ClusterItem;
 public class StamperMarker implements ClusterItem {
 
     private final LatLng mPosition;
+    private int mThumbnail;
     private final String mTitle;
-    private final String mSnippet;
 
-    StamperMarker(double lat, double lng){
-        mPosition = new LatLng(lat,lng);
-        mTitle = null;
-        mSnippet = null;
-    }
-    StamperMarker(double lat,double lng, String title, String snippet){
-        mPosition = new LatLng(lat,lng);
+
+    StamperMarker(LatLng latlng, String title, int thumbnail){
+        mPosition = latlng;
         mTitle = title;
-        mSnippet = snippet;
+        mThumbnail= thumbnail;
+    }
+    StamperMarker(LatLng latlng,  String title){
+        mPosition = latlng;
+        mTitle = title;
+        mThumbnail= R.drawable.arrow;
     }
     @Override
     public LatLng getPosition() {
@@ -31,6 +32,14 @@ public class StamperMarker implements ClusterItem {
 
     @Override
     public String getSnippet() {
-        return mSnippet;
+        return null;
+    }
+
+    public int getThumbnail() {
+        return mThumbnail;
+    }
+
+    public void setThumbnail(int res) {
+        mThumbnail = res;
     }
 }
