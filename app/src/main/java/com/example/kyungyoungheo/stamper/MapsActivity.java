@@ -5,17 +5,23 @@ import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements
+        OnMapReadyCallback,
+        OnMarkerClickListener {
 
     private GoogleMap mMap;
 
-    private static final  LatLng ssuCSE = new LatLng(37.494567, 126.959715);
+    private static final  LatLng CSE = new LatLng(37.494567, 126.959715);
+
+    private Marker mMarkerCSE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        return false;
+    }
+
+    private void addMarkersToMap(){
+        mMarkerCSE =  mMap.addMarker(new MarkerOptions()
+                .position(CSE)
+                .title("Marker in 정보대")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ssucse)));
+    }
 
     /**
      * Manipulates the map once available.
@@ -40,12 +58,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        mMap.setOnMarkerClickListener(this);
+        addMarkersToMap();
         // Add a marker in Sydney and move the camera
-        mMap.addMarker(new MarkerOptions()
-                .position(ssuCSE)
-                .title("Marker in 정보대")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ssucse)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(ssuCSE));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(CSE));
     }
 }
