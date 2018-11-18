@@ -25,8 +25,16 @@ public class MapsActivity extends FragmentActivity implements
     private GoogleMap mMap;
 
     private static final  LatLng CSE = new LatLng(37.494567, 126.959715);
+    private static final  LatLng SNU = new LatLng(37.481209, 126.952843);
+    private static final  LatLng Sangdo = new LatLng(37.502984, 126.947762);
+    private static final  LatLng Namsung = new LatLng(37.484814, 126.971175);
+    private static final  LatLng Naeksungdae = new LatLng(37.477064, 126.963548);
 
     private Marker mMarkerCSE;
+    private Marker mMarkerSNU;
+    private Marker mMarkerSangdo;
+    private Marker mMarkerNamsung;
+    private Marker mMarkerNaeksungdae;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +58,28 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void addMarkersToMap(){
-        Bitmap iconImage = resizeMapIcons("ssucse",100,100);
-
         mMarkerCSE =  mMap.addMarker(new MarkerOptions()
                 .position(CSE)
                 .title("Marker in 정보대")
-                .icon(BitmapDescriptorFactory.fromBitmap(iconImage)));
-        
+                .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ssucse",150,150))));
+        mMarkerSNU = mMap.addMarker(new MarkerOptions()
+                .position(SNU)
+                .title("서울대입구역")
+                .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("snu",150,150))));
+        mMarkerSangdo = mMap.addMarker(new MarkerOptions()
+                .position(Sangdo)
+                .title("상도역")
+                .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("sangdo",150,150))));
+        mMarkerNamsung = mMap.addMarker(new MarkerOptions()
+                .position(Namsung)
+                .title("남성역")
+                .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("namsung",150,150))));
+        mMarkerNaeksungdae = mMap.addMarker(new MarkerOptions()
+                .position(Naeksungdae)
+                .title("낙성대역")
+                .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("naeksungdae",150,150))));
+
+
     }
 
     private Bitmap resizeMapIcons(String iconName,int width, int height){
