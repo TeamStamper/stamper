@@ -40,16 +40,19 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps">
+        </activity>
+        <activity android:name=".VideoRecord.VideoActivity" />
+        <activity android:name=".VideoView.VideoViewActivity" />
+        <activity android:name=".VideoView.CardViewAdapter" />
+        <activity android:name=".Login">
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VideoRecord.VideoActivity" />
-        <activity android:name=".VideoView.VideoViewActivity" />
-        <activity android:name=".VideoView.CardViewAdapter" />
-        <activity android:name=".Login"></activity>
     </application>
 
 </manifest>

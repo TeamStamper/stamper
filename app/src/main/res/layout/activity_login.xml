@@ -8,18 +8,57 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         >
         <TextView
+            android:id="@+id/IDTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="아이디 : "
             android:layout_weight="5"/>
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:id="@+id/IDEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:inputType="text"
+            android:layout_weight="7"
+            android:hint="Id" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/PWTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:hint="id" />
+            android:text="비밀번호 : "/>
+        <EditText
+            android:id="@+id/PWEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:hint="Password"
+            android:inputType="textPassword"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/LoginBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onLoginClick"
+            android:text="로그인"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/SignInBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"/>
     </LinearLayout>
 </LinearLayout>
