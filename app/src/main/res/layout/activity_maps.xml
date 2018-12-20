@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
+<RelativeLayout
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/sliding_layout"
+    android:id="@+id/slidingLayout"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:gravity="bottom"
@@ -17,9 +17,18 @@
         android:id="@+id/map"
         tools:context=".MapsActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="test sliding up panel layout"/>
+    <ImageView
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/camera_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/camera_icon"/>
 
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+    <!--
+    <include
+        layout="@layout/sliding_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/> -->
+
+</RelativeLayout>

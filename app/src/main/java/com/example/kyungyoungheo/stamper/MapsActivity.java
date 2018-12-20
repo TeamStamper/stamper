@@ -1,14 +1,22 @@
 package com.example.kyungyoungheo.stamper;
 
-import android.content.Context;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.kyungyoungheo.stamper.VideoRecord.VideoActivity;
+import com.example.kyungyoungheo.stamper.VideoView.VideoViewActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -46,6 +54,15 @@ public class MapsActivity extends FragmentActivity implements
     private Marker mMarkerNamsung;
     private Marker mMarkerNaeksungdae;
 
+    final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    public ImageView cameraBtn;
+    public RelativeLayout slidingViewMain;
+
+    public void init(){
+        cameraBtn = (ImageView) findViewById(R.id.camera_btn);
+        slidingViewMain = (RelativeLayout) findViewById(R.id.sliding_view_main);
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -62,6 +79,7 @@ public class MapsActivity extends FragmentActivity implements
 //        addMarkersToMap();
         // Add a marker in Sydney and move the camera
 
+
         Log.d("check test", "before setup");
         setUpCluster();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CSE,13));
@@ -71,21 +89,71 @@ public class MapsActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+
+
+        if(PackageManager.PERMISSION_GRANTED!= checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        {
+            // 최초 권한 요청인지, 혹은 사용자에 의한 재요청인지 확인
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+
+                // 사용자가 임의로 권한을 취소한 경우
+                // 권한 재요청
+                requestPermissions(new String[]{Manifest.permission.CAMERA,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                }, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+
+
+            } else {
+                // 최초로 권한을 요청하는 경우(첫실행)
+                requestPermissions(new String[]{Manifest.permission.CAMERA,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                }, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+            }
+
+        }
+
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        init();
+
+        cameraBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()){
+                    case MotionEvent.ACTION_UP:
+                        Intent intent = new Intent(MapsActivity.this, VideoActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.pull_in_up,R.anim.push_out_right);
+                }
+                return true;
+            }
+        });
+
+
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+
 //        Context context = getApplicationContext();
-        if(marker.equals(mMarkerCSE)){
-            // Call video activity
-            Intent intent = new Intent(this, VideoActivity.class);
-            startActivity(intent);
-        }
+//        if(marker.equals(mMarkerCSE)){
+//            // Call video activity
+//            Intent intent = new Intent(this, VideoViewActivity.class);
+//            startActivity(intent);
+//        }
+        Toast.makeText(this, "chekck", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, VideoViewActivity.class);
+        startActivity(intent);
         return false;
     }
 
@@ -111,6 +179,9 @@ public class MapsActivity extends FragmentActivity implements
                 .title("낙성대역")
                 .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("naeksungdae",150,150))));
 
+
+
+
     }
 
     private Bitmap resizeMapIcons(String iconName,int width, int height){
@@ -128,7 +199,7 @@ public class MapsActivity extends FragmentActivity implements
 
         mClusterManager.setRenderer(new StamperMarkerRenderer(this,mMap, mClusterManager));
         mMap.setOnCameraIdleListener(mClusterManager);
-        mMap.setOnMarkerClickListener(mClusterManager);
+        mMap.setOnMarkerClickListener(this);
         mMap.setOnInfoWindowClickListener(mClusterManager);
 
 //        mClusterManager.setOnClusterClickListener(this);
@@ -193,12 +264,14 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public void onClusterInfoWindowClick(Cluster<StamperMarker> cluster) {
-
     }
 
     @Override
     public boolean onClusterItemClick(StamperMarker stamperMarker) {
-        return false;
+        Toast.makeText(this, "chekck", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, VideoViewActivity.class);
+        startActivity(intent);
+        return true;
     }
 
     @Override

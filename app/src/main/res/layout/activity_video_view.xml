@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VideoView.VideoViewActivity">
+
+
+
+    <com.example.kyungyoungheo.stamper.VideoView.TabAnimIndicator
+        android:id="@+id/vp_indigator"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentTop="true">
+
+    </com.example.kyungyoungheo.stamper.VideoView.TabAnimIndicator>
+
+    <android.support.v4.view.ViewPager
+        android:layout_below="@+id/vp_indigator"
+        android:id="@+id/main_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
+
+    </android.support.v4.view.ViewPager>
+
+    <ImageView
+        android:id="@+id/video_view_map_icon"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/vp_indigator"
+        android:src="@drawable/outline_map_black_18dp"/>
+
+    <ImageView
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/vp_indigator"
+        android:src="@drawable/outline_more_vert_black_18dp"/>
+
+    <ImageView
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/vp_indigator"
+        android:src="@drawable/outline_favorite_black_18dp"/>
+
+    <com.example.kyungyoungheo.stamper.VideoView.CircleImageView
+        android:layout_marginTop="20dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/circle_image_profile"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"/>
+
+
+</RelativeLayout>

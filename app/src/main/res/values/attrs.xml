@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CircleBtn">
+        <attr name="cb_height" format="dimension" />
+        <attr name="cb_width" format="dimension" />
+        <attr name="cb_stroke" format="dimension" />
+
+    </declare-styleable>
+
+
+</resources>
