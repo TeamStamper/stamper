@@ -5,8 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
@@ -15,7 +13,6 @@ import com.example.kyungyoungheo.stamper.R;
 
 public class Circle extends View {
     private static final int START_ANGLE_POINT = 270;
-
 
     private final Paint paint;
     private final RectF rect;
@@ -43,7 +40,6 @@ public class Circle extends View {
         //Circle color
         paint.setColor(Color.RED);
 
-
         //size 200x200 example
         rect = new RectF(strokeWidth, strokeWidth, circleHeight + strokeWidth, circleWidth + strokeWidth);
         //rect = new RectF(, 0, circleHeight + 0, circleWidth + 0);
@@ -51,7 +47,6 @@ public class Circle extends View {
         //Initial Angle (optional, it can be zero)
         angle = 0;
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {

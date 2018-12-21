@@ -1,12 +1,17 @@
 package com.example.kyungyoungheo.stamper;
 
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.kyungyoungheo.stamper.VideoRecord.VideoActivity;
 import com.example.kyungyoungheo.stamper.VideoView.VideoViewActivity;
+import com.example.kyungyoungheo.stamper.Map.PermissionUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -28,10 +34,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
-public class MapsActivity extends FragmentActivity implements
+public class MapsActivity extends AppCompatActivity implements
         OnMapReadyCallback,
         OnMarkerClickListener,
+        GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMyLocationClickListener,
         ClusterManager.OnClusterClickListener<StamperMarker>,
         ClusterManager.OnClusterInfoWindowClickListener<StamperMarker>,
         ClusterManager.OnClusterItemClickListener<StamperMarker>,
@@ -39,8 +49,8 @@ public class MapsActivity extends FragmentActivity implements
 
 
     private GoogleMap mMap;
-
     private ClusterManager<StamperMarker> mClusterManager;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
 
     private static final  LatLng CSE = new LatLng(37.494567, 126.959715);
     private static final  LatLng SNU = new LatLng(37.481209, 126.952843);
@@ -55,6 +65,8 @@ public class MapsActivity extends FragmentActivity implements
     private Marker mMarkerNaeksungdae;
 
     final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
     public ImageView cameraBtn;
     public RelativeLayout slidingViewMain;
 
@@ -78,6 +90,12 @@ public class MapsActivity extends FragmentActivity implements
         mMap.setOnMarkerClickListener(this);
 //        addMarkersToMap();
         // Add a marker in Sydney and move the camera
+        mMap.setOnMyLocationButtonClickListener(this);
+        mMap.setOnMyLocationClickListener(this);
+        enableMyLocation();
+
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
 
 
         Log.d("check test", "before setup");
@@ -257,6 +275,18 @@ public class MapsActivity extends FragmentActivity implements
 //        mClusterManager.addItem(mMarkerNaeksungdae);
     }
 
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        } else if (mMap != null) {
+            // Access to the location has been granted to the app.
+            mMap.setMyLocationEnabled(true);
+        }
+    }
+
     @Override
     public boolean onClusterClick(Cluster<StamperMarker> cluster) {
         return false;
@@ -268,8 +298,13 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public boolean onClusterItemClick(StamperMarker stamperMarker) {
-        Toast.makeText(this, "chekck", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "check", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, VideoViewActivity.class);
+
+        // VideoViewActivity에 현재 클릭한 마커의 정보, 좌표를 전달한다.
+        LatLng markerPos = stamperMarker.getPosition();
+        intent.putExtra("markerPos",markerPos);
+
         startActivity(intent);
         return true;
     }
@@ -277,5 +312,17 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public void onClusterItemInfoWindowClick(StamperMarker stamperMarker) {
 
+    }
+    @Override
+    public boolean onMyLocationButtonClick() {
+        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+        // Return false so that we don't consume the event and the default behavior still occurs
+        // (the camera animates to the user's current position).
+        return false;
+    }
+
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }
 }
